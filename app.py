@@ -17,10 +17,12 @@ def index():
     if request.method == "POST":
         long_url = request.form['long_url']
         short_url = generate_short_url()
+        # checks if the generated short URL already exists in the shortened_urls dictionary. If it does, a new short URL is generated. This is to ensure that each short URL is unique.
         while short_url in shortened_urls:
             short_url = generate_short_url()
 
         shortened_urls[short_url] = long_url
+        #saving created shorten url into a json file
         with open("urls.json","w") as f:
             json.dump(shortened_urls,f)
         return F"Shortened URL: {request.url_root}{short_url}"
